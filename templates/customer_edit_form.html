@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block title %}Edit {{ customer.fullName() }}{%
+{% extends 'base.html' %} {% block title %}Edit {{ customer.fullName }}{%
 endblock %} {% block content %}
 
 <form action="/{{ customer.id }}/edit/" method="POST">

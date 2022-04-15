@@ -101,9 +101,23 @@ class Customer {
     return await Reservation.getReservationsForCustomer(this.id);
   }
 
-  fullName() {
+  /** get customer's full name (first + last) */
+  get fullName() {
     return `${this.firstName} ${this.lastName}`;
   }
+
+  // set setNotes(note) {
+  //   if (!this.notes) {
+  //     this.notes = "";
+  //   } else{
+  //     this.notes = note;
+  //   }
+  // }
+
+  // get firstName() {
+  //   return `${this.firstName}`;
+  // }
+
 
   /** save this customer. */
 
@@ -113,7 +127,7 @@ class Customer {
         `INSERT INTO customers (first_name, last_name, phone, notes)
              VALUES ($1, $2, $3, $4)
              RETURNING id`,
-        [this.firstName, this.lastName, this.phone, this.notes]
+        [this.firstName, this.lastName, this.phone, this.setNotes(this.notes)]
       );
       this.id = result.rows[0].id;
     } else {

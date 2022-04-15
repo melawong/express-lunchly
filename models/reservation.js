@@ -62,6 +62,19 @@ class Reservation {
       );
     }
   }
+
+  get numGuests() {
+    return this._numGuests;
+  }
+
+  set numGuests(num) {
+    if (num < 1) {
+      throw new Error("Please make reservations for 1 or more persons");
+    }
+    this._numGuests = num;
+  }
+
 }
+
 
 module.exports = Reservation;
