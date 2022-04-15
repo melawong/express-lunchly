@@ -56,6 +56,9 @@ class Customer {
     return new Customer(customer);
   }
 
+  /** gets filtered customer list by search query */
+  static async filter()
+
   /** get all reservations for this customer. */
 
   async getReservations() {
