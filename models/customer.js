@@ -57,7 +57,42 @@ class Customer {
   }
 
   /** gets filtered customer list by search query */
-  static async filter()
+
+  static async filter(search) {
+    const results = await db.query(
+      `SELECT id,
+          first_name AS "firstName",
+          last_name  AS "lastName",
+          phone,
+          notes
+        FROM customers
+        WHERE LOWER(first_name) LIKE LOWER($1) OR LOWER(last_name) LIKE LOWER($1)
+        ORDER BY last_name, first_name`,
+      [`%${search}%`]
+    );
+
+    return results.rows.map((c) => new Customer(c));
+  }
+
+  /** gets top 10 customers with most reservations */
+
+  static async topTen() {
+    const results = await db.query(
+      `SELECT customers.id,
+          first_name AS "firstName",
+          last_name  AS "lastName",
+          phone,
+          customers.notes,
+          COUNT(reservations.id) AS resCount
+        FROM customers
+        JOIN reservations ON customers.id = reservations.customer_id
+        GROUP BY customers.id, first_name, last_name, phone, customers.notes
+        ORDER BY resCount DESC
+        LIMIT 10`
+    );
+
+    return results.rows.map((c) => new Customer(c));
+  }
 
   /** get all reservations for this customer. */
 
