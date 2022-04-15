@@ -1,5 +1,6 @@
 "use strict";
 
+const { e } = require("nunjucks/src/filters");
 /** Customer for Lunchly */
 
 const db = require("../db");
@@ -61,13 +62,13 @@ class Customer {
   static async filter(search) {
     const results = await db.query(
       `SELECT id,
-          first_name AS "firstName",
-          last_name  AS "lastName",
-          phone,
-          notes
-        FROM customers
-        WHERE LOWER(first_name) LIKE LOWER($1) OR LOWER(last_name) LIKE LOWER($1)
-        ORDER BY last_name, first_name`,
+            first_name AS "firstName",
+            last_name  AS "lastName",
+            phone,
+            notes
+          FROM customers
+          WHERE CONCAT(first_name, ' ', last_name) ILIKE $1
+          ORDER BY last_name, first_name`,
       [`%${search}%`]
     );
 
