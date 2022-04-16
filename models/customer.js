@@ -102,22 +102,25 @@ class Customer {
   }
 
   /** get customer's full name (first + last) */
+
   get fullName() {
     return `${this.firstName} ${this.lastName}`;
   }
 
-  // set setNotes(note) {
-  //   if (!this.notes) {
-  //     this.notes = "";
-  //   } else{
-  //     this.notes = note;
-  //   }
-  // }
+  /** getter function for notes */
 
-  // get firstName() {
-  //   return `${this.firstName}`;
-  // }
+  get notes() {
+    return this._notes
+  }
 
+  /** setter function for notes */
+
+  set notes(note){
+    if(!this.notes) {
+      this._notes = ""
+    }
+    this._notes = note;
+  }
 
   /** save this customer. */
 
@@ -127,7 +130,7 @@ class Customer {
         `INSERT INTO customers (first_name, last_name, phone, notes)
              VALUES ($1, $2, $3, $4)
              RETURNING id`,
-        [this.firstName, this.lastName, this.phone, this.setNotes(this.notes)]
+        [this.firstName, this.lastName, this.phone, this.notes]
       );
       this.id = result.rows[0].id;
     } else {

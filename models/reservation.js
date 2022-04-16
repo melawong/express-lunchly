@@ -41,6 +41,7 @@ class Reservation {
   }
 
   /** save reservation data */
+
   async save() {
     if (this.id === undefined) {
       const result = await db.query(
@@ -63,9 +64,13 @@ class Reservation {
     }
   }
 
+  /** getter function for numGuests */
+
   get numGuests() {
     return this._numGuests;
   }
+
+  /** setter function for numGuests */
 
   set numGuests(num) {
     if (num < 1) {
